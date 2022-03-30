@@ -4,6 +4,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import net.thucydides.core.annotations.DefaultUrl;
 import net.thucydides.core.annotations.Steps;
 import starter.pages.HomePage;
 import starter.pages.LoginPage;
@@ -41,6 +42,7 @@ public class LoginSteps {
     public void iGoToHomePage() {
         homePage.headerAppears();
         homePage.headerTextEqual();
+        homePage.clickProductName();
     }
 
     @When("I input protected username")
@@ -52,5 +54,26 @@ public class LoginSteps {
     public void errorMessage(String arg0) {
         loginPage.errorMessageAppears();
         loginPage.errorMessageEquals(arg0);
+    }
+
+    @When("I input {string} username")
+    public void iInputUsername(String username) {
+        loginPage.inputUsername(username);
+    }
+
+    @And("I input {string} password")
+    public void iInputPassword(String password) {
+        loginPage.inputPassword(password);
+    }
+
+    @Then("I get the {string}")
+    public void iGetThe(String result) {
+        if(result.equals("home page")){
+            homePage.headerAppears();
+            homePage.headerTextEqual();
+        } else {
+            loginPage.errorMessageAppears();
+            loginPage.errorMessageEquals(result);
+        }
     }
 }

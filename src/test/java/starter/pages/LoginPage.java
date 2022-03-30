@@ -1,8 +1,10 @@
 package starter.pages;
 
-import net.serenitybdd.core.pages.PageObject;
+import net.thucydides.core.pages.PageObject;
 import net.thucydides.core.annotations.Step;
 import org.openqa.selenium.By;
+
+import static net.serenitybdd.screenplay.actions.Scroll.to;
 
 public class LoginPage extends PageObject {
 
@@ -11,6 +13,7 @@ public class LoginPage extends PageObject {
     }
 
     private By passwordField(){
+//        driver.manage().window().maximize();
         return By.id("password");
     }
 
@@ -24,6 +27,7 @@ public class LoginPage extends PageObject {
 
     @Step
     public void openUrl(){
+//        openAt("/books");
         open();
     }
 
@@ -44,6 +48,7 @@ public class LoginPage extends PageObject {
 
     @Step
     public void clickLoginButton(){
+        to(loginButton());
         $(loginButton()).click();
     }
 
