@@ -35,3 +35,19 @@ Feature: Login
     And I input valid password
     And click login button
     Then error message "Epic sadface: Sorry, this user has been locked out."
+
+
+  @ToolsQA
+  Scenario Outline: Login scenario
+    Given I am on the login page
+    When I input "<username>" username
+    And I input "<password>" password
+    And click login button
+    Then I get the "<result>"
+    Examples:
+      |username|password|result|
+      |||icon warning|
+      ||Password1234|icon warning|
+      |aisyah22||icon warning|
+      |aisyah22|Password1234|Invalid username or wrong password|
+      |aisyahns22|Password1234!|page profile|

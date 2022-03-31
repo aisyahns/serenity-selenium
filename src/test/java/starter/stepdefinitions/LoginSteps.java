@@ -6,8 +6,10 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.thucydides.core.annotations.DefaultUrl;
 import net.thucydides.core.annotations.Steps;
+import starter.pages.BooksPage;
 import starter.pages.HomePage;
 import starter.pages.LoginPage;
+import starter.pages.ProfilePage;
 
 public class LoginSteps {
 
@@ -17,9 +19,17 @@ public class LoginSteps {
     @Steps
     HomePage homePage;
 
+    @Steps
+    ProfilePage profilePage;
+
+    @Steps
+    BooksPage booksPage;
+
     @Given("I am on the login page")
     public void iAmOnTheLoginPage() {
-        loginPage.openUrl();
+        booksPage.openUrl();
+        booksPage.validateBooksPage();
+        booksPage.clickLoginButton();
         loginPage.validateOnLoginPage();
     }
 
@@ -35,6 +45,7 @@ public class LoginSteps {
 
     @And("click login button")
     public void clickLoginButton() {
+        loginPage.scrollTo();
         loginPage.clickLoginButton();
     }
 
@@ -68,9 +79,11 @@ public class LoginSteps {
 
     @Then("I get the {string}")
     public void iGetThe(String result) {
-        if(result.equals("home page")){
-            homePage.headerAppears();
-            homePage.headerTextEqual();
+        if(result.equals("icon warning")){
+            loginPage.verifyIconWarningAppears();
+        } else if (result.equals("page profile")){
+            profilePage.validateHeaderProfileAppears();
+            profilePage.validateHeaderProfileEqual("Profile");
         } else {
             loginPage.errorMessageAppears();
             loginPage.errorMessageEquals(result);

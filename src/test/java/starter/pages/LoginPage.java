@@ -1,15 +1,23 @@
 package starter.pages;
 
+//import net.serenitybdd.screenplay.actions.Scroll;
+import net.serenitybdd.core.pages.SerenityActions;
+import net.serenitybdd.screenplay.actions.ScrollToBy;
 import net.thucydides.core.pages.PageObject;
 import net.thucydides.core.annotations.Step;
 import org.openqa.selenium.By;
-
-import static net.serenitybdd.screenplay.actions.Scroll.to;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
 
 public class LoginPage extends PageObject {
 
+
+    ScrollToBy scroll = new ScrollToBy();
+
     private By usernameField(){
-        return By.id("user-name");
+        return By.id("userName");
     }
 
     private By passwordField(){
@@ -18,17 +26,29 @@ public class LoginPage extends PageObject {
     }
 
     private By loginButton(){
-        return By.id("login-button");
+        return By.id("login");
     } //defini identifier element yang akan berinteraksi dengan automatenya
 
     private By errorMessage(){
-        return By.xpath("//*[@id=\"login_button_container\"]/div/form/div[3]/h3");
+        return By.id("name");
+    }
+
+    private By interactionsText(){
+        return By.xpath("//div[text() = 'Interactions']");
+    }
+
+    private By iconWarning(){
+        return By.xpath("//input[@class='mr-sm-2 is-invalid form-control']");
+    }
+
+    @Step
+    public boolean verifyIconWarningAppears(){
+        return $(iconWarning()).isDisplayed();
     }
 
     @Step
     public void openUrl(){
-//        openAt("/books");
-        open();
+        openAt("/books");
     }
 
     @Step
@@ -48,8 +68,14 @@ public class LoginPage extends PageObject {
 
     @Step
     public void clickLoginButton(){
-        to(loginButton());
         $(loginButton()).click();
+    }
+
+    @Step
+    public void scrollTo(){
+        SerenityActions actions = new SerenityActions(getDriver());
+        actions.moveToElement($(interactionsText())).perform();
+//        getDriver().findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL, Keys.END);
     }
 
     @Step
